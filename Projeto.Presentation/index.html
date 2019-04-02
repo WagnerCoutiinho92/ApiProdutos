@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+<body class="container" ng-controller="estoque-controller">
+
+    <h2>Cadastro de Estoque</h2>
+    <hr />
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <label>Nome do Estoque:</label>
+            <input type="text" class="form-control" placeholder="Digite aqui" ng-model="model.Nome" />
+
+            <button class="btn btn-success" ng-click="cadastrar()"> Cadastrar Estoque</button>
+            <br />
+            <br />
+            <strong>{{mensagem}}</strong>
+        </div>
+    </div>
+
+    <script src="Scripts/jquery-3.0.0.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/angular.min.js"></script>
+
+    <script>
+        //criando um programa baseado em angularjs
+        var app = angular.module("app", []);
+        //criando um controller..
+        app.controller("estoque-controller",
+
+            function ($scope, $http) {
+                //função para fazer a requisição ao serviço..
+                $scope.cadastrar = function () {
+                    $scope.mensagem = "Enviando requisição...";
+                    $http.post("http://localhost:54223/api/Estoque/cadastrar", $scope.model)
+
+                        .then(function (d) {
+                            $scope.mensagem = d.data;
+                            $scope.model = {};
+                        })
+
+                        .catch(function (e) {
+
+                            $scope.mensagem = e.data;
+                        });
+                };
+            });
+
+    </script>
+
+
+
+</body>
+</html>

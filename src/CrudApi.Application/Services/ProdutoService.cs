@@ -2,7 +2,6 @@ using AutoMapper;
 using CrudApi.Application.DTOs;
 using CrudApi.Application.Interfaces;
 using CrudApi.Domain.Entities;
-using CrudApi.Infrastructure.Interfaces;
 
 namespace CrudApi.Application.Services;
 

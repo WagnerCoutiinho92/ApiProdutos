@@ -1,6 +1,7 @@
+
+using CrudApi.Application.Interfaces;
 using CrudApi.Domain.Entities;
 using CrudApi.Infrastructure.Data;
-using CrudApi.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CrudApi.Infrastructure.Repositories;
@@ -14,30 +15,31 @@ public class ProdutoRepository : IProdutoRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Produto>> Listar()
-        => await _context.Produtos.AsNoTracking().ToListAsync();
+    public async Task<IEnumerable<Produto>> Listar() =>
+        await _context.Produtos.Where(p => p.Ativo).ToListAsync();
 
-    public Task<Produto?> ObterPorId(int id)
-        => _context.Produtos.FirstOrDefaultAsync(x => x.Id == id);
+    public async Task<Produto?> ObterPorId(int id) =>
+        await _context.Produtos.FirstOrDefaultAsync(p => p.Id == id && p.Ativo);
 
     public async Task Adicionar(Produto produto)
     {
-        _context.Add(produto);
+        _context.Produtos.Add(produto);
         await _context.SaveChangesAsync();
     }
 
     public async Task Atualizar(Produto produto)
     {
-        _context.Update(produto);
+        _context.Produtos.Update(produto);
         await _context.SaveChangesAsync();
     }
 
     public async Task SoftDelete(int id)
     {
-        var produto = await ObterPorId(id);
-        if (produto is null) return;
-
-        produto.Excluido = true;
-        await _context.SaveChangesAsync();
+        var produto = await _context.Produtos.FindAsync(id);
+        if (produto != null)
+        {
+            produto.Ativo = false;
+            await _context.SaveChangesAsync();
+        }
     }
 }

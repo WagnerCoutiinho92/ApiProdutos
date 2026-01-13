@@ -1,6 +1,7 @@
+
 using CrudApi.Domain.Entities;
 
-namespace CrudApi.Infrastructure.Interfaces;
+namespace CrudApi.Application.Interfaces;
 
 public interface IProdutoRepository
 {

@@ -1,3 +1,10 @@
 namespace CrudApi.Application.DTOs;
 
-public record ProdutoUpdateDto(int Id, string Nome, decimal Preco, bool Ativo);
+public class ProdutoUpdateDto
+{
+    public int Id { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public string Descricao { get; set; } = string.Empty;
+    public decimal Preco { get; set; }
+    public bool Ativo { get; set; }
+}

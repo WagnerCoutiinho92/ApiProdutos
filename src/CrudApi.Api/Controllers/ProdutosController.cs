@@ -1,5 +1,5 @@
 using CrudApi.Application.DTOs;
-using CrudApi.Application.Interfaces;
+using CrudApi.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CrudApi.Api.Controllers;
@@ -17,26 +17,26 @@ public class ProdutosController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> Get()
-        => Ok(await _service.Listar());
+        => Ok(await _service.GetAllAsync());
 
     [HttpPost]
     public async Task<IActionResult> Post(ProdutoCreateDto dto)
     {
-        await _service.Criar(dto);
+        await _service.CreateAsync(dto);
         return Ok();
     }
 
     [HttpPut]
     public async Task<IActionResult> Put(ProdutoUpdateDto dto)
     {
-        await _service.Atualizar(dto);
+        await _service.UpdateAsync(dto);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        await _service.Excluir(id);
+        await _service.DeleteAsync(id);
         return NoContent();
     }
 }

@@ -1,13 +1,15 @@
 
-using System.Text;
 using CrudApi.API.Middlewares;
+using CrudApi.Application.Interfaces.Repositories;
 using CrudApi.Application.Mapping;
 using CrudApi.Infrastructure.Data;
+using CrudApi.Infrastructure.Identity;
 using CrudApi.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using CrudApi.Application.Interfaces.Repositories;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,22 @@ var connectionString =
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services
+    .AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
+    {
+        options.Password.RequiredLength = 8;
+        options.Password.RequireDigit = true;
+        options.Password.RequireUppercase = true;
+        options.User.RequireUniqueEmail = true;
+    })
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services
+    .AddIdentity<ApplicationUser, IdentityRole<int>>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 

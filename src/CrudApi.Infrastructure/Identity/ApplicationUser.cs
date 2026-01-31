@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CrudApi.Infrastructure.Identity;
 
-public class ApplicationUser : IdentityUser<int>, IAuditableEntity
+public class ApplicationUser : IdentityUser<string>, IAuditableEntity
 {
     public string Nome { get; set; } = null!;
 

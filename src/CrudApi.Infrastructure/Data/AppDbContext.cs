@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CrudApi.Infrastructure.Data;
-
-public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
+public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<string>, string>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
